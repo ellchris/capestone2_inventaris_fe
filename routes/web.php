@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProcurementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -11,7 +12,15 @@ use App\Http\Controllers\LoginController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    if (session()->has('user')) {
+        $role = session('user')['role'];
+        if ($role === 'admin') {
+            return redirect('/admin');
+        } elseif ($role === 'kepala_lab') {
+            return redirect('/kalab/dashboard');
+        }
+    }
+    return redirect('/login');
 });
 
 /*
@@ -57,3 +66,18 @@ Route::post('/admin/rooms/store', [AdminController::class, 'storeRoom']);
 Route::get('/admin/rooms/edit/{id}', [AdminController::class, 'editRoom']);
 Route::put('/admin/rooms/update/{id}', [AdminController::class, 'updateRoom']);
 Route::delete('/admin/rooms/delete/{id}', [AdminController::class, 'deleteRoom']);
+
+/*
+|--------------------------------------------------------------------------
+| KEPALA LABORATORIUM (KALAB)
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/kalab/dashboard', [ProcurementController::class, 'dashboard']);
+Route::get('/kalab/procurements', [ProcurementController::class, 'index']);
+Route::get('/kalab/procurements/create', [ProcurementController::class, 'create']);
+Route::post('/kalab/procurements/store', [ProcurementController::class, 'store']);
+Route::get('/kalab/procurements/edit/{id}', [ProcurementController::class, 'edit']);
+Route::put('/kalab/procurements/update/{id}', [ProcurementController::class, 'update']);
+Route::get('/kalab/procurements/show/{id}', [ProcurementController::class, 'show']);
+Route::post('/kalab/procurements/lock/{id}', [ProcurementController::class, 'lock']);
