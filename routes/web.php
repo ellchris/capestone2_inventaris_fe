@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProcurementController;
+use App\Http\Controllers\KaprodiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,15 +13,27 @@ use App\Http\Controllers\ProcurementController;
 */
 
 Route::get('/', function () {
+
     if (session()->has('user')) {
+
         $role = session('user')['role'];
+
         if ($role === 'admin') {
             return redirect('/admin');
-        } elseif ($role === 'kepala_lab') {
+        }
+
+        elseif ($role === 'kepala_lab') {
             return redirect('/kalab/dashboard');
         }
+
+        elseif ($role === 'ketua_prodi') {
+            return redirect('/kaprodi/dashboard');
+        }
+
     }
+
     return redirect('/login');
+
 });
 
 /*
@@ -69,7 +82,7 @@ Route::delete('/admin/rooms/delete/{id}', [AdminController::class, 'deleteRoom']
 
 /*
 |--------------------------------------------------------------------------
-| KEPALA LABORATORIUM (KALAB)
+| KEPALA LABORATORIUM
 |--------------------------------------------------------------------------
 */
 
@@ -81,3 +94,30 @@ Route::get('/kalab/procurements/edit/{id}', [ProcurementController::class, 'edit
 Route::put('/kalab/procurements/update/{id}', [ProcurementController::class, 'update']);
 Route::get('/kalab/procurements/show/{id}', [ProcurementController::class, 'show']);
 Route::post('/kalab/procurements/lock/{id}', [ProcurementController::class, 'lock']);
+
+/*
+|--------------------------------------------------------------------------
+| KAPRODI
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/kaprodi/dashboard', [KaprodiController::class, 'dashboard']);
+
+Route::get('/kaprodi/procurements', [KaprodiController::class, 'index']);
+
+Route::get('/kaprodi/procurements/{id}', [KaprodiController::class, 'show']);
+
+Route::put(
+    '/kaprodi/procurements/{id}/approve',
+    [KaprodiController::class, 'approve']
+);
+
+Route::put(
+    '/kaprodi/procurements/{id}/reject',
+    [KaprodiController::class, 'reject']
+);
+
+Route::put(
+    '/kaprodi/procurements/{id}/finalize',
+    [KaprodiController::class, 'finalize']
+);

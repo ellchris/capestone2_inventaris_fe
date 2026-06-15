@@ -37,6 +37,24 @@ class LoginController extends Controller
             return redirect('/admin');
         }
 
+        if ($data['user']['role'] === 'kepala_lab') {
+            return redirect('/kalab/dashboard');
+        }
+
+        if ($data['user']['role'] === 'ketua_prodi') {
+            return redirect('/kaprodi/dashboard');
+        }
+
+        if ($data['user']['role'] === 'staf_admin') {
+            return redirect('/staf-admin/dashboard');
+        }
+
+        if ($data['user']['role'] === 'staf_lab') {
+            return redirect('/staf-lab/dashboard');
+        }
+
+return redirect('/');
+
         return redirect('/');
     }
 
