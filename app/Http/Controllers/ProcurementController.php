@@ -188,4 +188,49 @@ class ProcurementController extends Controller implements HasMiddleware
 
         return redirect('/kalab/procurements')->with('error', 'Gagal mengunci draf pengadaan.');
     }
+
+    // DELETE DRAFT
+    public function destroy($id)
+    {
+        $response = Http::delete("http://127.0.0.1:5000/api/procurements/$id");
+        
+        if ($response->successful()) {
+            return redirect('/kalab/procurements')->with('success', 'Draf pengadaan berhasil dihapus.');
+        }
+
+        $msg = $response->json()['error'] ?? ($response->json()['message'] ?? 'Gagal menghapus draf pengadaan.');
+        return redirect('/kalab/procurements')->with('error', $msg);
+    }
+
+    // VIEW INVENTORY (jenis = 'inventaris')
+    public function inventory()
+    {
+        $response = Http::get('http://127.0.0.1:5000/api/items');
+        $items = [];
+        
+        if ($response->successful()) {
+            $allItems = $response->json()['data'] ?? [];
+            $items = array_filter($allItems, function($item) {
+                return strtolower($item['jenis']) === 'inventaris';
+            });
+        }
+        
+        return view('kalab.inventory', compact('items'));
+    }
+
+    // VIEW CONSUMABLES (jenis = 'habis_pakai')
+    public function consumables()
+    {
+        $response = Http::get('http://127.0.0.1:5000/api/items');
+        $items = [];
+        
+        if ($response->successful()) {
+            $allItems = $response->json()['data'] ?? [];
+            $items = array_filter($allItems, function($item) {
+                return strtolower($item['jenis']) === 'habis_pakai';
+            });
+        }
+        
+        return view('kalab.consumables', compact('items'));
+    }
 }

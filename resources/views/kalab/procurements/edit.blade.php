@@ -1,29 +1,28 @@
 @extends('layouts.kalab')
 
 @section('title', 'Edit Draf Pengadaan')
-@section('page_title', 'Edit Draf Pengadaan')
 
 @section('content')
-<div class="space-y-6 max-w-6xl mx-auto">
+<div class="max-w-6xl mx-auto">
     <!-- Back & Title -->
-    <div class="flex items-center gap-3">
-        <a href="/kalab/procurements" class="px-4 py-2.5 rounded-lg bg-slate-800 text-slate-300 hover:text-white transition text-sm">
-            ⬅️ Kembali
+    <div class="flex items-center mb-8 gap-3">
+        <a href="/kalab/procurements" class="bg-slate-500 hover:bg-slate-600 text-white px-4 py-2.5 rounded-lg text-sm transition">
+            Kembali
         </a>
-        <h1 class="text-2xl font-bold text-white">Edit Draf Pengadaan Tahunan</h1>
+        <h1 class="text-3xl font-bold text-slate-800">Edit Draf Pengadaan Tahunan</h1>
     </div>
 
-    <!-- FORM CARD -->
+    <!-- FORM -->
     <form action="/kalab/procurements/update/{{ $procurement['id'] }}" method="POST" class="space-y-6">
         @csrf
         @method('PUT')
 
         <!-- General Settings Panel -->
-        <div class="rounded-2xl bg-slate-950 border border-slate-800 p-6 space-y-4">
-            <h3 class="text-lg font-semibold text-cyan-400">Informasi Umum</h3>
+        <div class="bg-white rounded-2xl shadow-sm p-8 border border-slate-100">
+            <h3 class="text-lg font-bold text-slate-800 mb-4">Informasi Umum</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="space-y-2">
-                    <label for="tahun_anggaran" class="block text-sm font-medium text-slate-300">Tahun Anggaran <span class="text-red-500">*</span></label>
+                <div>
+                    <label for="tahun_anggaran" class="block font-semibold mb-2 text-slate-700">Tahun Anggaran <span class="text-red-500">*</span></label>
                     <input type="number" 
                            id="tahun_anggaran" 
                            name="tahun_anggaran" 
@@ -31,19 +30,19 @@
                            required 
                            min="2020" 
                            max="2100"
-                           class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-800 focus:outline-none focus:border-cyan-500 text-white transition">
+                           class="w-full border rounded-lg p-3 focus:outline-none focus:border-blue-500 transition">
                 </div>
             </div>
         </div>
 
         <!-- Procurement Items Table Panel -->
-        <div class="rounded-2xl bg-slate-950 border border-slate-800 p-6 space-y-6">
-            <div class="flex justify-between items-center">
-                <h3 class="text-lg font-semibold text-cyan-400">Daftar Barang yang Dibeli</h3>
+        <div class="bg-white rounded-2xl shadow-sm p-8 border border-slate-100">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-lg font-bold text-slate-800">Daftar Barang yang Dibeli</h3>
                 <button type="button" 
                         onclick="addRow()" 
-                        class="px-4 py-2 rounded-lg bg-cyan-600/20 border border-cyan-500/50 hover:bg-cyan-600/30 text-cyan-400 transition font-medium text-sm flex items-center gap-2">
-                    <span>➕</span> Tambah Baris
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold text-sm transition">
+                    + Tambah Baris
                 </button>
             </div>
 
@@ -51,17 +50,17 @@
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse" id="items-table">
                     <thead>
-                        <tr class="border-b border-slate-800 text-slate-400 text-xs font-semibold uppercase tracking-wider">
-                            <th class="pb-3 pr-4">Nama Barang <span class="text-red-500">*</span></th>
-                            <th class="pb-3 pr-4 w-36">Harga (Rp) <span class="text-red-500">*</span></th>
-                            <th class="pb-3 pr-4 w-24">Jumlah <span class="text-red-500">*</span></th>
-                            <th class="pb-3 pr-4">Link Pembelian</th>
-                            <th class="pb-3 pr-4 w-44">Gantikan Barang Lama?</th>
-                            <th class="pb-3 pr-4">Barang yang Diganti</th>
-                            <th class="pb-3 w-16 text-center">Aksi</th>
+                        <tr class="bg-slate-100 text-slate-700 text-xs font-bold uppercase tracking-wider">
+                            <th class="py-3 px-4 rounded-l-lg">Nama Barang <span class="text-red-500">*</span></th>
+                            <th class="py-3 px-4 w-36">Harga (Rp) <span class="text-red-500">*</span></th>
+                            <th class="py-3 px-4 w-24">Jumlah <span class="text-red-500">*</span></th>
+                            <th class="py-3 px-4">Link Pembelian</th>
+                            <th class="py-3 px-4 w-44">Gantikan Barang?</th>
+                            <th class="py-3 px-4">Barang yang Diganti</th>
+                            <th class="py-3 px-4 rounded-r-lg text-center">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-850" id="items-tbody">
+                    <tbody id="items-tbody">
                         <!-- Existing rows populated here -->
                     </tbody>
                 </table>
@@ -69,17 +68,17 @@
 
             <!-- Empty State Info inside Table -->
             <div id="empty-state-info" class="text-center py-8 text-slate-500 hidden">
-                <p>Belum ada barang dalam daftar ini. Klik <strong>"Tambah Baris"</strong> di atas.</p>
+                <p>Belum ada barang dalam daftar ini. Klik <strong>"+ Tambah Baris"</strong> di atas.</p>
             </div>
         </div>
 
         <!-- Submit Buttons -->
         <div class="flex justify-end gap-4">
-            <a href="/kalab/procurements" class="px-6 py-3.5 rounded-xl bg-slate-800 text-slate-300 hover:text-white transition font-medium">
+            <a href="/kalab/procurements" class="bg-slate-300 hover:bg-slate-400 text-slate-700 px-6 py-3 rounded-xl font-semibold transition">
                 Batal
             </a>
-            <button type="submit" class="px-6 py-3.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-medium shadow-md shadow-cyan-950/20 transition">
-                📂 Perbarui Draf
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold shadow-sm transition">
+                Perbarui Draf
             </button>
         </div>
     </form>
@@ -99,7 +98,7 @@
         
         const row = document.createElement('tr');
         row.id = `row-${rowId}`;
-        row.className = 'hover:bg-slate-900/20';
+        row.className = 'border-b hover:bg-slate-55 hover:bg-slate-50 transition';
         
         let dropdownOptions = '<option value="">-- Pilih Barang --</option>';
         const selectedId = data ? data.replaced_item_id : '';
@@ -116,33 +115,33 @@
         const linkVal = data ? data.link_pembelian : '';
         
         row.innerHTML = `
-            <td class="py-4 pr-4">
-                <input type="text" name="items[${rowId}][nama_barang]" value="${nameVal}" required placeholder="Nama barang..." class="w-full px-3 py-2.5 rounded-lg bg-slate-900 border border-slate-800 focus:outline-none focus:border-cyan-500 text-white transition text-sm">
+            <td class="py-4 px-2">
+                <input type="text" name="items[${rowId}][nama_barang]" value="${nameVal}" required placeholder="Nama barang..." class="w-full border rounded-lg p-2.5 text-sm focus:outline-none focus:border-blue-500 transition">
             </td>
-            <td class="py-4 pr-4">
-                <input type="number" name="items[${rowId}][harga]" value="${priceVal}" required min="0" placeholder="0" class="w-full px-3 py-2.5 rounded-lg bg-slate-900 border border-slate-800 focus:outline-none focus:border-cyan-500 text-white transition text-sm">
+            <td class="py-4 px-2">
+                <input type="number" name="items[${rowId}][harga]" value="${priceVal}" required min="0" placeholder="0" class="w-full border rounded-lg p-2.5 text-sm focus:outline-none focus:border-blue-500 transition">
             </td>
-            <td class="py-4 pr-4">
-                <input type="number" name="items[${rowId}][jumlah]" value="${qtyVal}" required min="1" placeholder="1" class="w-full px-3 py-2.5 rounded-lg bg-slate-900 border border-slate-800 focus:outline-none focus:border-cyan-500 text-white transition text-sm">
+            <td class="py-4 px-2">
+                <input type="number" name="items[${rowId}][jumlah]" value="${qtyVal}" required min="1" placeholder="1" class="w-full border rounded-lg p-2.5 text-sm focus:outline-none focus:border-blue-500 transition">
             </td>
-            <td class="py-4 pr-4">
-                <input type="url" name="items[${rowId}][link_pembelian]" value="${linkVal}" placeholder="https://..." class="w-full px-3 py-2.5 rounded-lg bg-slate-900 border border-slate-800 focus:outline-none focus:border-cyan-500 text-white transition text-sm">
+            <td class="py-4 px-2">
+                <input type="url" name="items[${rowId}][link_pembelian]" value="${linkVal}" placeholder="https://..." class="w-full border rounded-lg p-2.5 text-sm focus:outline-none focus:border-blue-500 transition">
             </td>
-            <td class="py-4 pr-4 text-center">
+            <td class="py-4 px-4 text-center">
                 <div class="flex items-center justify-start gap-2 h-10">
                     <input type="hidden" name="items[${rowId}][is_replacement]" value="0">
-                    <input type="checkbox" name="items[${rowId}][is_replacement]" value="1" ${isReplacementChecked ? 'checked' : ''} onchange="toggleReplacement(${rowId}, this)" class="w-5 h-5 rounded bg-slate-900 border border-slate-800 text-cyan-600 focus:ring-cyan-500 cursor-pointer">
-                    <label class="text-xs text-slate-400 select-none cursor-pointer">Ya, ganti barang</label>
+                    <input type="checkbox" name="items[${rowId}][is_replacement]" value="1" ${isReplacementChecked ? 'checked' : ''} onchange="toggleReplacement(${rowId}, this)" class="w-5 h-5 rounded border-slate-350 text-blue-600 focus:ring-blue-500 cursor-pointer">
+                    <label class="text-xs text-slate-550 select-none cursor-pointer">Ya, ganti</label>
                 </div>
             </td>
-            <td class="py-4 pr-4">
-                <select name="items[${rowId}][replaced_item_id]" id="select-replace-${rowId}" class="w-full px-3 py-2.5 rounded-lg bg-slate-900 border border-slate-800 focus:outline-none focus:border-cyan-500 transition text-sm ${isReplacementChecked ? 'text-white' : 'text-slate-400 invisible'}" ${isReplacementChecked ? 'required' : ''}>
+            <td class="py-4 px-2">
+                <select name="items[${rowId}][replaced_item_id]" id="select-replace-${rowId}" class="w-full border rounded-lg p-2.5 text-sm text-slate-800 focus:outline-none focus:border-blue-500 transition ${isReplacementChecked ? '' : 'invisible'}" ${isReplacementChecked ? 'required' : ''}>
                     ${dropdownOptions}
                 </select>
             </td>
             <td class="py-4 text-center">
-                <button type="button" onclick="removeRow(${rowId})" class="w-8 h-8 rounded-lg bg-red-950/20 border border-red-900/30 text-red-400 hover:bg-red-900/40 transition flex items-center justify-center text-sm" title="Hapus baris">
-                    ❌
+                <button type="button" onclick="removeRow(${rowId})" class="bg-red-100 hover:bg-red-200 text-red-600 font-semibold px-2 py-1 rounded-lg transition" title="Hapus baris">
+                    Hapus
                 </button>
             </td>
         `;
@@ -166,8 +165,6 @@
         if (checkbox.checked) {
             select.classList.remove('invisible');
             select.required = true;
-            select.classList.remove('text-slate-400');
-            select.classList.add('text-white');
         } else {
             select.classList.add('invisible');
             select.required = false;

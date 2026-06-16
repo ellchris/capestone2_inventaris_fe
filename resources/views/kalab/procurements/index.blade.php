@@ -1,97 +1,101 @@
 @extends('layouts.kalab')
 
 @section('title', 'Draf Pengadaan')
-@section('page_title', 'Draf Pengadaan Barang')
 
 @section('content')
-<div class="space-y-6">
-    <!-- Header Page Actions -->
-    <div class="flex justify-between items-center">
-        <div>
-            <h1 class="text-2xl font-bold text-white">Draf Pengadaan Barang Tahunan</h1>
-            <p class="text-sm text-slate-400">Daftar draf pengadaan inventaris laboratorium dan barang habis pakai (BHP).</p>
-        </div>
-        <a href="/kalab/procurements/create" 
-           class="flex items-center gap-2 px-5 py-3 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-medium shadow-md shadow-cyan-950/20 transition duration-200">
-            <span>➕</span> Tambah Draf Baru
-        </a>
+<div class="flex justify-between items-center mb-8">
+    <div>
+        <h1 class="text-3xl font-bold text-slate-800">
+            Draf Pengadaan Barang
+        </h1>
+        <p class="text-slate-500 mt-1">
+            Daftar draf pengadaan inventaris laboratorium dan barang habis pakai (BHP) tahunan.
+        </p>
     </div>
+    <a href="/kalab/procurements/create" 
+       class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl font-semibold shadow-sm transition">
+        + Tambah Draf Baru
+    </a>
+</div>
 
-    <!-- TABLE CARD -->
-    <div class="rounded-2xl bg-slate-950 border border-slate-800 overflow-hidden shadow-xl">
-        <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-slate-900 border-b border-slate-800 text-slate-400 text-xs font-semibold uppercase tracking-wider">
-                        <th class="py-4 px-6">Tahun Anggaran</th>
-                        <th class="py-4 px-6">Status</th>
-                        <th class="py-4 px-6">Tanggal Pengajuan</th>
-                        <th class="py-4 px-6 text-right">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-850 text-slate-200">
-                    @forelse($procurements as $proc)
-                        <tr class="hover:bg-slate-900/50 transition">
-                            <td class="py-4 px-6 font-bold text-white text-lg">
-                                TA {{ $proc['tahun_anggaran'] }}
-                            </td>
-                            <td class="py-4 px-6">
-                                @if($proc['status'] === 'draft')
-                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-950/40 border border-amber-800/50 text-amber-400">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
-                                        Draft (Editable)
-                                    </span>
-                                @else
-                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-950/40 border border-emerald-800/50 text-emerald-400">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                                        Locked (Submitted)
-                                    </span>
-                                @endif
-                            </td>
-                            <td class="py-4 px-6 text-sm text-slate-400">
-                                {{ date('d M Y, H:i', strtotime($proc['created_at'])) }}
-                            </td>
-                            <td class="py-4 px-6 text-right space-x-2">
-                                <!-- VIEW DETAIL (always available) -->
-                                <a href="/kalab/procurements/show/{{ $proc['id'] }}" 
-                                   class="inline-flex items-center gap-1 px-3.5 py-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700 transition text-sm">
-                                    <span>👁️</span> Detail
-                                </a>
+<div class="bg-white rounded-2xl shadow-sm overflow-hidden border border-slate-100">
+    <table class="w-full">
+        <thead class="bg-slate-100">
+            <tr>
+                <th class="text-left px-6 py-4">Tahun Anggaran</th>
+                <th class="text-left px-6 py-4">Status</th>
+                <th class="text-left px-6 py-4">Tanggal Pengajuan</th>
+                <th class="text-center px-6 py-4">Aksi</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100">
+            @forelse($procurements as $proc)
+                <tr class="hover:bg-slate-50">
+                    <td class="px-6 py-4 font-bold text-slate-800 text-base">
+                        TA {{ $proc['tahun_anggaran'] }}
+                    </td>
+                    <td class="px-6 py-4">
+                        @if($proc['status'] === 'draft')
+                            <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-lg text-sm font-medium">
+                                Draft (Editable)
+                            </span>
+                        @else
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-lg text-sm font-medium">
+                                Locked (Submitted)
+                            </span>
+                        @endif
+                    </td>
+                    <td class="px-6 py-4 text-slate-600">
+                        {{ date('d M Y, H:i', strtotime($proc['created_at'])) }}
+                    </td>
+                    <td class="px-6 py-4 text-center space-x-1">
+                        <!-- VIEW DETAIL -->
+                        <a href="/kalab/procurements/show/{{ $proc['id'] }}" 
+                           class="bg-slate-500 hover:bg-slate-600 text-white px-3 py-2 rounded-lg text-sm transition">
+                            Detail
+                        </a>
 
-                                @if($proc['status'] === 'draft')
-                                    <!-- EDIT DRAFT -->
-                                    <a href="/kalab/procurements/edit/{{ $proc['id'] }}" 
-                                       class="inline-flex items-center gap-1 px-3.5 py-2 rounded-lg bg-amber-950/10 border border-amber-900/40 text-amber-400 hover:bg-amber-950/20 hover:text-amber-300 transition text-sm">
-                                        <span>✍️</span> Edit
-                                    </a>
+                        @if($proc['status'] === 'draft')
+                            <!-- EDIT DRAFT -->
+                            <a href="/kalab/procurements/edit/{{ $proc['id'] }}" 
+                               class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-2 rounded-lg text-sm transition">
+                                Edit
+                            </a>
 
-                                    <!-- LOCK DRAFT FORM -->
-                                    <form action="/kalab/procurements/lock/{{ $proc['id'] }}" method="POST" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin mengunci draf pengadaan ini? Setelah dikunci, data tidak dapat diubah lagi.');">
-                                        @csrf
-                                        <button type="submit" 
-                                                class="inline-flex items-center gap-1 px-3.5 py-2 rounded-lg bg-emerald-950/10 border border-emerald-900/40 text-emerald-400 hover:bg-emerald-950/20 hover:text-emerald-300 transition text-sm">
-                                            <span>🔒</span> Lock Draf
-                                        </button>
-                                    </form>
-                                @else
-                                    <button disabled 
-                                            class="inline-flex items-center gap-1 px-3.5 py-2 rounded-lg bg-slate-950 border border-slate-900 text-slate-700 cursor-not-allowed text-sm">
-                                        <span>🔒</span> Locked
-                                    </button>
-                                @endif
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="4" class="py-12 text-center text-slate-500">
-                                <div class="text-4xl mb-3">📭</div>
-                                Tidak ada draf pengadaan barang. Klik <strong>"Tambah Draf Baru"</strong> untuk memulai.
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-    </div>
+                            <!-- LOCK DRAFT FORM -->
+                            <form action="/kalab/procurements/lock/{{ $proc['id'] }}" method="POST" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin mengunci draf pengadaan ini? Setelah dikunci, data tidak dapat diubah lagi.');">
+                                @csrf
+                                <button type="submit" 
+                                        class="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-sm transition">
+                                    Lock Draf
+                                </button>
+                            </form>
+
+                            <!-- DELETE DRAFT FORM -->
+                            <form action="/kalab/procurements/delete/{{ $proc['id'] }}" method="POST" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus draf pengadaan ini? Semua barang terkait draf ini juga akan terhapus.');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" 
+                                        class="bg-red-605 bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg text-sm transition">
+                                    Hapus
+                                </button>
+                            </form>
+                        @else
+                            <button disabled 
+                                    class="bg-slate-200 text-slate-400 px-3 py-2 rounded-lg text-sm cursor-not-allowed">
+                                Locked
+                            </button>
+                        @endif
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="4" class="text-center py-12 text-slate-500">
+                        Tidak ada draf pengadaan barang. Klik <strong>"Tambah Draf Baru"</strong> untuk memulai.
+                    </td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
 </div>
 @endsection

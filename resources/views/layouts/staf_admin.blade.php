@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title') - Panel Kepala Laboratorium</title>
+    <title>@yield('title') - Panel Staf Administrasi</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -26,30 +26,25 @@
             </h2>
 
             <p class="text-slate-300 text-sm mt-1">
-                Kepala Lab Panel
+                Staf Administrasi Panel
             </p>
         </div>
 
         <nav class="p-4 space-y-1">
 
-            <a href="/kalab/dashboard"
-               class="block px-4 py-3 rounded-lg hover:bg-slate-700 transition {{ Request::is('kalab/dashboard') ? 'bg-slate-900 font-semibold text-white' : 'text-slate-300' }}">
+            <a href="/staf-admin/dashboard"
+               class="block px-4 py-3 rounded-lg hover:bg-slate-700 transition {{ Request::is('staf-admin/dashboard') ? 'bg-slate-900 font-semibold text-white' : 'text-slate-300' }}">
                 Dashboard
             </a>
 
-            <a href="/kalab/procurements"
-               class="block px-4 py-3 rounded-lg hover:bg-slate-700 transition {{ Request::is('kalab/procurements*') ? 'bg-slate-900 font-semibold text-white' : 'text-slate-300' }}">
-                Pengadaan Barang
+            <a href="/staf-admin/procurements"
+               class="block px-4 py-3 rounded-lg hover:bg-slate-700 transition {{ Request::is('staf-admin/procurements*') ? 'bg-slate-900 font-semibold text-white' : 'text-slate-300' }}">
+                Penerimaan Barang
             </a>
 
-            <a href="/kalab/inventory"
-               class="block px-4 py-3 rounded-lg hover:bg-slate-700 transition {{ Request::is('kalab/inventory*') ? 'bg-slate-900 font-semibold text-white' : 'text-slate-300' }}">
-                Lihat Inventaris
-            </a>
-
-            <a href="/kalab/consumables"
-               class="block px-4 py-3 rounded-lg hover:bg-slate-700 transition {{ Request::is('kalab/consumables*') ? 'bg-slate-900 font-semibold text-white' : 'text-slate-300' }}">
-                Barang Habis Pakai
+            <a href="/staf-admin/inventory"
+               class="block px-4 py-3 rounded-lg hover:bg-slate-700 transition {{ Request::is('staf-admin/inventory*') || Request::is('staf-admin/items*') ? 'bg-slate-900 font-semibold text-white' : 'text-slate-300' }}">
+                Kelola Inventaris
             </a>
 
             <a href="/logout"

@@ -45,11 +45,11 @@ class LoginController extends Controller
             return redirect('/kaprodi/dashboard');
         }
 
-        if ($data['user']['role'] === 'staf_admin') {
+        if (in_array($data['user']['role'], ['staf_admin', 'staff_admin'])) {
             return redirect('/staf-admin/dashboard');
         }
 
-        if ($data['user']['role'] === 'staf_lab') {
+        if (in_array($data['user']['role'], ['staf_lab', 'staff_lab'])) {
             return redirect('/staf-lab/dashboard');
         }
 

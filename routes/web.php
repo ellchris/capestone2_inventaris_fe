@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProcurementController;
 use App\Http\Controllers\KaprodiController;
+use App\Http\Controllers\StafAdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -94,6 +95,9 @@ Route::get('/kalab/procurements/edit/{id}', [ProcurementController::class, 'edit
 Route::put('/kalab/procurements/update/{id}', [ProcurementController::class, 'update']);
 Route::get('/kalab/procurements/show/{id}', [ProcurementController::class, 'show']);
 Route::post('/kalab/procurements/lock/{id}', [ProcurementController::class, 'lock']);
+Route::delete('/kalab/procurements/delete/{id}', [ProcurementController::class, 'destroy']);
+Route::get('/kalab/inventory', [ProcurementController::class, 'inventory']);
+Route::get('/kalab/consumables', [ProcurementController::class, 'consumables']);
 
 /*
 |--------------------------------------------------------------------------
@@ -121,3 +125,19 @@ Route::put(
     '/kaprodi/procurements/{id}/finalize',
     [KaprodiController::class, 'finalize']
 );
+
+/*
+|--------------------------------------------------------------------------
+| STAF ADMIN
+|--------------------------------------------------------------------------
+*/
+Route::get('/staf-admin/dashboard', [StafAdminController::class, 'dashboard']);
+Route::get('/staf-admin/procurements', [StafAdminController::class, 'procurements']);
+Route::get('/staf-admin/procurements/{id}', [StafAdminController::class, 'showProcurement']);
+Route::put('/staf-admin/procurements/item/{id}/receive', [StafAdminController::class, 'receiveItem']);
+Route::get('/staf-admin/items/register/{procurement_item_id}', [StafAdminController::class, 'registerItemForm']);
+Route::post('/staf-admin/items/store-registered', [StafAdminController::class, 'storeRegisteredItem']);
+Route::get('/staf-admin/inventory', [StafAdminController::class, 'inventory']);
+Route::get('/staf-admin/items/edit/{id}', [StafAdminController::class, 'editItem']);
+Route::put('/staf-admin/items/update/{id}', [StafAdminController::class, 'updateItem']);
+Route::delete('/staf-admin/items/delete/{id}', [StafAdminController::class, 'deleteItem']);
