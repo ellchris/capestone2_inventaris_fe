@@ -79,6 +79,74 @@
 
         </div>
 
+        <div class="bg-white rounded-2xl shadow mt-8 overflow-hidden">
+
+            <div class="p-6 border-b">
+
+                <h2 class="text-xl font-bold">
+                    Draft Pengadaan Terbaru
+                </h2>
+
+            </div>
+
+            <table class="w-full">
+
+                <thead class="bg-slate-100">
+
+                    <tr>
+                        <th class="px-6 py-4 text-left">ID</th>
+                        <th class="px-6 py-4 text-left">Tahun</th>
+                        <th class="px-6 py-4 text-left">Status</th>
+                        <th class="px-6 py-4 text-left">Approval</th>
+                        <th class="px-6 py-4 text-center">Aksi</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach($procurements as $procurement)
+
+                    <tr class="border-t">
+
+                        <td class="px-6 py-4">
+                            {{ $procurement['id'] }}
+                        </td>
+
+                        <td class="px-6 py-4">
+                            {{ $procurement['tahun_anggaran'] }}
+                        </td>
+
+                        <td class="px-6 py-4">
+                            {{ $procurement['status'] }}
+                        </td>
+
+                        <td class="px-6 py-4">
+                            {{ $procurement['approval_status'] }}
+                        </td>
+
+                        <td class="px-6 py-4 text-center">
+
+                            <a
+                                href="/kaprodi/procurements/show/{{ $procurement['id'] }}"
+                                class="bg-blue-600 text-white px-3 py-2 rounded-lg">
+
+                                Review
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    @endforeach
+
+                </tbody>
+
+            </table>
+
+        </div>
+
     </main>
 
 </div>

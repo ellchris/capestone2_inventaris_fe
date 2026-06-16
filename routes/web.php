@@ -6,12 +6,9 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProcurementController;
 use App\Http\Controllers\KaprodiController;
 use App\Http\Controllers\StafAdminController;
+use App\Http\Controllers\StaffLabController;
 
-/*
-|--------------------------------------------------------------------------
-| HALAMAN AWAL
-|--------------------------------------------------------------------------
-*/
+// halaman awal
 
 Route::get('/', function () {
 
@@ -37,29 +34,17 @@ Route::get('/', function () {
 
 });
 
-/*
-|--------------------------------------------------------------------------
-| LOGIN & LOGOUT
-|--------------------------------------------------------------------------
-*/
+// login & logout
 
 Route::get('/login', [LoginController::class, 'showLogin']);
 Route::post('/login', [LoginController::class, 'login']);
 Route::get('/logout', [LoginController::class, 'logout']);
 
-/*
-|--------------------------------------------------------------------------
-| DASHBOARD ADMIN
-|--------------------------------------------------------------------------
-*/
+// admin dashboard
 
 Route::get('/admin', [AdminController::class, 'dashboard']);
 
-/*
-|--------------------------------------------------------------------------
-| KELOLA PENGGUNA
-|--------------------------------------------------------------------------
-*/
+// KELOLA PENGGUNA
 
 Route::get('/admin/users', [AdminController::class, 'index']);
 Route::get('/admin/users/create', [AdminController::class, 'createUser']);
@@ -68,11 +53,7 @@ Route::delete('/admin/users/delete/{id}', [AdminController::class, 'deleteUser']
 Route::get('/admin/users/edit/{id}', [AdminController::class, 'editUser']);
 Route::put('/admin/users/update/{id}', [AdminController::class, 'updateUser']);
 
-/*
-|--------------------------------------------------------------------------
-| KELOLA RUANGAN
-|--------------------------------------------------------------------------
-*/
+// KELOLA RUANGAN
 
 Route::get('/admin/rooms', [AdminController::class, 'rooms']);
 Route::get('/admin/rooms/create', [AdminController::class, 'createRoom']);
@@ -81,11 +62,7 @@ Route::get('/admin/rooms/edit/{id}', [AdminController::class, 'editRoom']);
 Route::put('/admin/rooms/update/{id}', [AdminController::class, 'updateRoom']);
 Route::delete('/admin/rooms/delete/{id}', [AdminController::class, 'deleteRoom']);
 
-/*
-|--------------------------------------------------------------------------
-| KEPALA LABORATORIUM
-|--------------------------------------------------------------------------
-*/
+// KEPALA LAB
 
 Route::get('/kalab/dashboard', [ProcurementController::class, 'dashboard']);
 Route::get('/kalab/procurements', [ProcurementController::class, 'index']);
@@ -99,38 +76,16 @@ Route::delete('/kalab/procurements/delete/{id}', [ProcurementController::class, 
 Route::get('/kalab/inventory', [ProcurementController::class, 'inventory']);
 Route::get('/kalab/consumables', [ProcurementController::class, 'consumables']);
 
-/*
-|--------------------------------------------------------------------------
-| KAPRODI
-|--------------------------------------------------------------------------
-*/
+// kaprodi
 
 Route::get('/kaprodi/dashboard', [KaprodiController::class, 'dashboard']);
-
 Route::get('/kaprodi/procurements', [KaprodiController::class, 'index']);
-
 Route::get('/kaprodi/procurements/{id}', [KaprodiController::class, 'show']);
+Route::put('/kaprodi/procurements/{id}/approve',[KaprodiController::class, 'approve']);
+Route::put( '/kaprodi/procurements/{id}/reject', [KaprodiController::class, 'reject']);
+Route::put('/kaprodi/procurements/{id}/finalize',[KaprodiController::class, 'finalize']);
 
-Route::put(
-    '/kaprodi/procurements/{id}/approve',
-    [KaprodiController::class, 'approve']
-);
-
-Route::put(
-    '/kaprodi/procurements/{id}/reject',
-    [KaprodiController::class, 'reject']
-);
-
-Route::put(
-    '/kaprodi/procurements/{id}/finalize',
-    [KaprodiController::class, 'finalize']
-);
-
-/*
-|--------------------------------------------------------------------------
-| STAF ADMIN
-|--------------------------------------------------------------------------
-*/
+// staf admin
 Route::get('/staf-admin/dashboard', [StafAdminController::class, 'dashboard']);
 Route::get('/staf-admin/procurements', [StafAdminController::class, 'procurements']);
 Route::get('/staf-admin/procurements/{id}', [StafAdminController::class, 'showProcurement']);
@@ -141,3 +96,9 @@ Route::get('/staf-admin/inventory', [StafAdminController::class, 'inventory']);
 Route::get('/staf-admin/items/edit/{id}', [StafAdminController::class, 'editItem']);
 Route::put('/staf-admin/items/update/{id}', [StafAdminController::class, 'updateItem']);
 Route::delete('/staf-admin/items/delete/{id}', [StafAdminController::class, 'deleteItem']);
+
+// staf lab
+Route::get('/staf-lab/dashboard',[StaffLabController::class, 'dashboard']);
+Route::get('/staf-lab/maintenances',[StaffLabController::class, 'maintenances']);
+Route::get('/staf-lab/maintenances/create',[StaffLabController::class, 'createMaintenance']);
+Route::post('/staf-lab/maintenances/store',[StaffLabController::class, 'storeMaintenance']);

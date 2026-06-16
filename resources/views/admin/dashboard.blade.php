@@ -76,4 +76,50 @@
 
 </div>
 
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+
+    <div class="bg-white rounded-2xl shadow-sm p-8">
+
+        <h3 class="text-xl font-semibold mb-4">
+            Daftar Pengguna
+        </h3>
+
+        @foreach($users as $user)
+
+        <div class="flex justify-between py-2 border-b">
+
+            <span>
+                {{ $user['nama'] }}
+            </span>
+
+            <span class="text-slate-500">
+                {{ $user['role'] }}
+            </span>
+
+        </div>
+
+        @endforeach
+
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-sm p-8">
+
+        <h3 class="text-xl font-semibold mb-4">
+            Daftar Ruangan
+        </h3>
+
+        @foreach($rooms as $room)
+
+        <div class="py-2 border-b">
+
+            {{ $room['nama_ruangan'] }}
+
+        </div>
+
+        @endforeach
+
+    </div>
+
+</div>
+
 @endsection

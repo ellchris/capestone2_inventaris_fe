@@ -7,38 +7,42 @@ use Illuminate\Support\Facades\Http;
 
 class AdminController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | DASHBOARD ADMIN
-    |--------------------------------------------------------------------------
-    */
+    // dashboard admin
     public function dashboard()
     {
         $usersResponse = Http::get('http://127.0.0.1:5000/api/users');
         $roomsResponse = Http::get('http://127.0.0.1:5000/api/rooms');
 
-        $totalUsers = 0;
-        $totalRooms = 0;
+        $users = [];
+        $rooms = [];
 
         if ($usersResponse->successful()) {
-            $totalUsers = count($usersResponse->json());
+
+            $users = $usersResponse->json()['data'] ?? [];
+
         }
 
         if ($roomsResponse->successful()) {
-            $totalRooms = count($roomsResponse->json());
+
+            $rooms = $roomsResponse->json();
+
         }
 
-        return view('admin.dashboard', compact(
-            'totalUsers',
-            'totalRooms'
-        ));
+        $totalUsers = count($users);
+        $totalRooms = count($rooms);
+
+        return view(
+            'admin.dashboard',
+            compact(
+                'totalUsers',
+                'totalRooms',
+                'users',
+                'rooms'
+            )
+        );
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | KELOLA PENGGUNA
-    |--------------------------------------------------------------------------
-    */
+    // KELOLA PENGGUNA
     public function index()
     {
         $response = Http::get('http://127.0.0.1:5000/api/users');
@@ -133,11 +137,7 @@ class AdminController extends Controller
             );
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | KELOLA RUANGAN
-    |--------------------------------------------------------------------------
-    */
+   // KELOLA RUANGAN
     public function rooms()
     {
         $response = Http::get('http://127.0.0.1:5000/api/rooms');
@@ -195,21 +195,13 @@ class AdminController extends Controller
             );
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | FORM TAMBAH RUANGAN
-    |--------------------------------------------------------------------------
-    */
+    // tambah ruangan
     public function createRoom()
     {
         return view('admin.createRoom');
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | SIMPAN RUANGAN
-    |--------------------------------------------------------------------------
-    */
+    // simpan ruangan
     public function storeRoom(Request $request)
     {
         $response = Http::post(
